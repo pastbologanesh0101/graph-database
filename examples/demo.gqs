@@ -1,0 +1,22 @@
+# Graph Query Script demo
+# Run with: python main.py examples/demo.gqs
+
+CREATE NODE (:Person {name: "Alice", age: 30})
+CREATE NODE (:Person {name: "Bob", age: 25})
+CREATE NODE (:Person {name: "Carol", age: 35})
+CREATE NODE (:Company {name: "Acme"})
+
+CREATE EDGE (1)-[:FRIENDS_WITH]->(2)
+CREATE EDGE (2)-[:FRIENDS_WITH]->(3)
+CREATE EDGE (1)-[:WORKS_AT {since: 2020}]->(4)
+
+MATCH (n:Person) RETURN n
+MATCH (n:Person) WHERE n.name = "Bob" RETURN n
+MATCH (n:Person)-[:FRIENDS_WITH]->(m) RETURN m
+MATCH (n:Person)-[:FRIENDS_WITH*1..2]->(m) RETURN m
+MATCH SHORTESTPATH (1) TO (3) VIA FRIENDS_WITH RETURN PATH
+
+SET NODE 2.age = 26
+
+DELETE NODE 4
+MATCH (n:Company) RETURN n
